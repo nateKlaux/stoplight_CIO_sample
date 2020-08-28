@@ -25,7 +25,7 @@ paths:
         description: User's unique ID
     put:
       summary: ''
-      operationId: put-customers-id
+      operationId: put-customer
       parameters:
         - schema:
             type: string
@@ -38,6 +38,7 @@ paths:
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
           in: header
           name: Authorization
+          required: true
       description: Create or update a customer.
       responses: {}
       requestBody:
@@ -48,24 +49,59 @@ paths:
               type: object
               properties:
                 email:
-                  type: string
-                  default: someemail
+                  $ref: '#/components/schemas/email'
                 created_at:
-                  type: integer
-                  default: asdfasdfasdf
+                  $ref: '#/components/schemas/created_at'
+                attributes:
+                  $ref: '#/components/schemas/attributes'
               required:
                 - email
+        description: ''
     delete:
-      summary: ''
-      operationId: delete-customers-id
+      summary: Delete
+      operationId: delete-customer
       responses:
         '200':
           description: OK
+      description: |-
+        Delete a customer. 
+
+        Deleting a customer will remove them, and all their information from Customer.io.
+
+        **Note**: If you’re still sending data to Customer.io via other means (such as the Javascript snippet), the customer could be recreated.
+
+        **This action is not available with the Javascript snippet alone.**
 components:
-  schemas: {}
-  securitySchemes:
-    MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=:
-      type: http
-      scheme: basic
-security:
-  - authorization: []
+  schemas:
+    email:
+      type: string
+      title: email
+      description: '**Recomended**: The email address of the user.'
+      default: nathan.k.laux@gmail.com
+      example: cool_email@host.com
+    created_at:
+      type: integer
+      title: created_at
+      description: |-
+        **Recommended**: The UNIX timestamp from when the user was created in your system.
+
+        This
+      default: 1598656835
+      example: 1598656835
+    first_name:
+      type: string
+      title: first_name
+      description: The first name of the Person.
+      default: enter_name
+      example: Bobby
+    attributes:
+      anyOf:
+        - default: First Name
+          description: First Name
+          example: Bobby
+        - description: Type of Plan
+          example: plan=Basic
+          default: 'plan={plan}'
+      description: Properties stored per Person in your account.
+      type: string
+  securitySchemes: {}
