@@ -63,6 +63,9 @@ paths:
               required:
                 - email
         description: ''
+      tags:
+        - Create Person
+        - Delete Person
     delete:
       summary: Delete
       operationId: delete-Pustomer
@@ -91,6 +94,7 @@ paths:
         - Delete customer device
       responses: {}
       operationId: put-customers-id-devices
+      description: ''
     delete:
       summary: Delete a customer device
       tags:
@@ -158,3 +162,6 @@ components:
       description: Properties stored per Person in your account.
       type: string
   securitySchemes: {}
+tags:
+  - name: Create Person
+  - name: Delete Person
