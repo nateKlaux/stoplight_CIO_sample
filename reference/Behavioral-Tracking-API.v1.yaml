@@ -338,7 +338,7 @@ paths:
       parameters:
         - schema:
             type: string
-            default: application/x-www-form-urlencoded
+            default: application/json
           in: header
           name: Content-Type
           required: true
@@ -360,10 +360,8 @@ paths:
                   $ref: '#/components/schemas/event_name'
                 type:
                   $ref: '#/components/schemas/type'
-                'data[product]':
-                  $ref: '#/components/schemas/data_product'
-                'data[price]':
-                  $ref: '#/components/schemas/data_price'
+                data:
+                  $ref: '#/components/schemas/data'
               required:
                 - name
         description: ''
@@ -392,7 +390,7 @@ paths:
       parameters:
         - schema:
             type: string
-            default: application/x-www-form-urlencoded
+            default: application/json
           in: header
           name: Content-Type
           description: This header defines the bodyRequest parameters.
@@ -412,8 +410,8 @@ paths:
               properties:
                 event_name:
                   $ref: '#/components/schemas/event_name'
-                'data[price]':
-                  $ref: '#/components/schemas/data_price'
+                data:
+                  $ref: '#/components/schemas/data'
               required:
                 - event_name
   '/segments/{id}/add_customers':
@@ -549,9 +547,7 @@ components:
       description: UNIX timestamp representing the last used time for the device. If this is not included we default to the time of the device identify.
       default: 1514764800
     event_name:
-      type:
-        - string
-        - number
+      type: string
       title: event_name
       description: The name of the event to track.
       default: purchase
@@ -570,7 +566,8 @@ components:
       items:
         type: number
         default: Appropriate Value
-        example: 24.94
+        example: 24
+        format: double
     data_product:
       type: string
       title: 'data[product]'
@@ -590,6 +587,32 @@ components:
       default: Appropriate Value
       example: gavin@hooli.com
       format: email
+    data:
+      title: data
+      type: array
+      items:
+        anyOf:
+          - properties:
+              product:
+                type: string
+                description: Custom data about price to include with the event.
+                example: shoes
+              price:
+                type: number
+                description: Custom data about price to include with the event.
+                example: 24.94
+                format: float
+              time_stamp:
+                type: integer
+                description: Custom data about UNIX epoch time to include with the event.
+                example: 1598725892
+              recipient:
+                type: string
+                description: Custom data about the recipient to include with the event.
+                format: email
+                example: gavin@hooli.com
+        type: object
+      description: 'Custom data about products, price, time stampls, and recipients. '
   securitySchemes: {}
 tags:
   - name: Create and Delete a Person
