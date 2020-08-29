@@ -39,7 +39,7 @@ paths:
         name: id
         in: path
         required: true
-        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     put:
       summary: Create or update a Person
       operationId: create-Person
@@ -131,7 +131,7 @@ paths:
         name: id
         in: path
         required: true
-        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     put:
       summary: Create or update a Person's device
       responses: {}
@@ -178,7 +178,7 @@ paths:
         name: id
         in: path
         required: true
-        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
       - schema:
           type: string
           default: '1'
@@ -224,7 +224,7 @@ paths:
         name: id
         in: path
         required: true
-        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Supress a Person
       responses: {}
@@ -265,7 +265,7 @@ paths:
         name: id
         in: path
         required: true
-        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Unsupress a Person
       responses: {}
@@ -301,10 +301,11 @@ paths:
     parameters:
       - schema:
           type: string
+          default: '6'
         name: id
         in: path
         required: true
-        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Track a Person's event
       tags:
@@ -408,6 +409,88 @@ paths:
                   $ref: '#/components/schemas/data_price'
               required:
                 - event_name
+  '/segments/{id}/add_customers':
+    parameters:
+      - schema:
+          type: string
+          default: '6'
+        name: id
+        in: path
+        required: true
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
+    post:
+      summary: Add People to a manual segment
+      tags:
+        - Add and Remove People from a manual segment
+      responses: {}
+      operationId: post-segments-id-add_customers
+      parameters:
+        - schema:
+            type: string
+            default: application/x-www-form-urlencoded
+          in: header
+          name: Content-Type
+          description: This header defines the bodyRequest parameters.
+          required: true
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          name: Authorization
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
+          required: true
+      description: |-
+        Manual segments are segments that you control by sending requests to our Behavioral Tracking API or by uploading lists of customers in the Customer.io application. You can add people to a segment by sending an `add_customers request`, and remove them by sending a `remove_customers` request.
+
+        <!-- theme: warning -->
+
+        >
+        >There is a limit of 1000 customer ids per request
+
+        >If you send customer ids that don’t exist yet in an >add_customers request, we will automatically create customer >profiles for the new customer ids.
+
+        <!-- theme: warning -->
+
+        >
+        >**NOTE: This API call is for use with manual segments only.** It will NOT add anyone to data-driven segments. Please visit our documentation on segments to learn more about these segment types.
+  '/segments/{id}/remove_customer':
+    parameters:
+      - schema:
+          type: string
+          default: '6'
+        name: id
+        in: path
+        required: true
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
+    post:
+      summary: Remove People from a manual segment
+      tags:
+        - Add and Remove People from a manual segment
+      responses: {}
+      operationId: post-segments-id-remove_customer
+      parameters:
+        - schema:
+            type: string
+            default: application/x-www-form-urlencoded
+          in: header
+          name: Content-Type
+          required: true
+          description: This header defines the bodyRequest parameters.
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          name: Authorization
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
+          required: true
+      description: |-
+        <!-- theme: warning -->
+
+        >There is a limit of 1000 customer ids per request
+
+        <!-- theme: warning -->
+
+        >**NOTE: This API call is for use with manual segments only.** It will NOT remove anyone from data-driven segments. Please visit our documentation on segments to learn more about these segment types.
 components:
   schemas:
     email:
@@ -450,7 +533,7 @@ components:
       title: platform
       description: The platform for the user device. Allowed values are 'ios' and 'android'.
       default: my_ios_device_id
-      example: '1'
+      example: Either 'ios' or 'android'
     last_used:
       type: number
       title: last_used
@@ -505,3 +588,4 @@ tags:
   - name: Supress a Person
   - name: Unsupress a Person
   - name: Track an event
+  - name: Add and Remove People from a manual segment
