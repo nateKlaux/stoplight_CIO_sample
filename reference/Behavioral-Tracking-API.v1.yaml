@@ -71,7 +71,9 @@ paths:
 
 
         > To remove an attribute on an existing customer, set its value to an empty string.
-      responses: {}
+      responses:
+        '200':
+          description: OK
       requestBody:
         required: true
         content:
@@ -94,9 +96,6 @@ paths:
     delete:
       summary: Delete a Person
       operationId: delete-Person
-      responses:
-        '200':
-          description: OK
       description: |-
         Delete a Person. 
 
@@ -124,6 +123,9 @@ paths:
           name: Authorization
           required: true
           description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
+      responses:
+        '200':
+          description: OK
   '/customers/{id}/devices':
     parameters:
       - schema:
@@ -135,7 +137,9 @@ paths:
         description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     put:
       summary: Create or update a Person's device
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: put-Persons-id-devices
       description: Create or update a Person's device.
       tags:
@@ -230,7 +234,9 @@ paths:
         description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Supress a Person
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: post-Persons-id-suppress
       description: |-
         Supress a Person.
@@ -272,7 +278,9 @@ paths:
         description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Unsupress a Person
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: post-Persons-id-unsuppress
       description: |-
         Unsupress a Person.
@@ -316,7 +324,9 @@ paths:
       tags:
         - Track an event
         - Events
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: post-customers-id-events
       description: |-
         Track a Person's event.
@@ -371,7 +381,9 @@ paths:
       tags:
         - Track an event
         - Events
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: post-events
       description: |-
         Anonymous events can also be sent to Customer.io by way of a `POST` to the events resource directly without a customer ID.
@@ -425,7 +437,9 @@ paths:
         description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Add People to a manual segment
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: post-segments-id-add_customers
       parameters:
         - schema:
@@ -470,7 +484,9 @@ paths:
         description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Remove People from a manual segment
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: post-segments-id-remove_customer
       parameters:
         - schema:
