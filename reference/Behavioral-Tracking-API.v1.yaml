@@ -15,7 +15,7 @@ servers:
   - url: 'https://track.customer.io/api/v1'
     description: Behavioral Tracking API
 paths:
-  /customers/id:
+  '/customers/id':
     parameters: []
     put:
       summary: Create or update a Person
