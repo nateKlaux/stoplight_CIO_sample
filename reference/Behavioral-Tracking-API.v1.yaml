@@ -64,7 +64,6 @@ paths:
                 - email
         description: ''
       tags:
-        - Create Person
         - Delete Person
     delete:
       summary: Delete
@@ -162,6 +161,5 @@ components:
       type: string
   securitySchemes: {}
 tags:
-  - name: Create Person
   - name: Delete Person
   - name: Delete customer device
