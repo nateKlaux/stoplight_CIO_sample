@@ -90,6 +90,7 @@ paths:
         description: ''
       tags:
         - Create and Delete a Person
+        - Customers
     delete:
       summary: Delete a Person
       operationId: delete-Person
@@ -139,6 +140,7 @@ paths:
       description: Create or update a Person's device.
       tags:
         - Create and Delete a Person's Device
+        - Customers
       parameters:
         - schema:
             type: string
@@ -216,6 +218,7 @@ paths:
           description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
       tags:
         - Create and Delete a Person's Device
+        - Customers
   '/customers/{id}/suppress':
     parameters:
       - schema:
@@ -257,6 +260,7 @@ paths:
           description: This header defines the bodyRequest parameters.
       tags:
         - Supress and Unsupress a Person
+        - Customers
   '/customers/{id}/unsuppress':
     parameters:
       - schema:
@@ -297,6 +301,7 @@ paths:
           description: This header defines the bodyRequest parameters.
       tags:
         - Supress and Unsupress a Person
+        - Customers
   '/customers/{id}/events':
     parameters:
       - schema:
@@ -310,6 +315,7 @@ paths:
       summary: Track a Person's event
       tags:
         - Track an event
+        - Events
       responses: {}
       operationId: post-customers-id-events
       description: |-
@@ -366,6 +372,7 @@ paths:
       summary: Track an anonymous event
       tags:
         - Track an event
+        - Events
       responses: {}
       operationId: post-events
       description: |-
@@ -453,6 +460,7 @@ paths:
         >**NOTE: This API call is for use with manual segments only.** It will NOT add anyone to data-driven segments. Please visit our documentation on segments to learn more about these segment types.
       tags:
         - Add and Remove a Person from Segments
+        - Segments
   '/segments/{id}/remove_customer':
     parameters:
       - schema:
@@ -491,6 +499,7 @@ paths:
         >**NOTE: This API call is for use with manual segments only.** It will NOT remove anyone from data-driven segments. Please visit our documentation on segments to learn more about these segment types.
       tags:
         - Add and Remove a Person from Segments
+        - Segments
 components:
   schemas:
     email:
@@ -588,3 +597,6 @@ tags:
   - name: Track an event
   - name: Supress and Unsupress a Person
   - name: Add and Remove a Person from Segments
+  - name: Customers
+  - name: Events
+  - name: Segments
