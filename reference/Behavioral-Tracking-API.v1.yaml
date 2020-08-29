@@ -1,7 +1,22 @@
 openapi: 3.0.0
 info:
   title: Behavioral Tracking API
-  description: 'Our Behavioral Tracking API is used to identify and track customer data with Customer.io. You can add and delete customers and their devices, supress and unsupress customers, as well as manage events and segments (manually added customers from GUI interface). Data is available in JSON, XML, or HTML format. **Note**: This sample Swagger file covers the `Behavioral Tracking API` only. `BETA API` integration will be available soon. This sample authorizes using my demo tracking API keys.<br/><br/> **Note**: `id` parameter is required for all endpoints.'
+  description: |-
+    ## Resource Description
+
+    Our **Behavioral Tracking API** is used to identify and track Person (customer) data with Customer.io. You can add, update, or delete Person, as well as their devices. You can also use the API to supress and unsupress Persons, manage events and segments (segments are manually added customers from GUI interface). Data is available in JSON, XML, or HTML format. **Note**: This sample Spotlight file covers the `Behavioral Tracking API` only. `API` and `BETA API` integration with Spotlight will be available soon. <br/>
+
+    ## Authentication
+    <!-- theme: warning --> 
+    > This sample uses my personal Customer.io demo tracking API keys. They are set to eventually expire. 
+
+    All requests to the Customer.io API must be authenticated using a Tracking API Key over HTTP Basic Auth.
+
+    To authenticate, provide your Site ID as the username, and your secret API key as the password. You can find these values by visiting the Tracking API Keys page directly, or by clicking the Integrations link in the left-hand menu of your Customer.io account and choosing Customer.io API > Manage API Credentials > Tracking API Keys.
+    <!-- theme: danger -->
+    > Nothing will work unless you include both your Site ID and your API Key
+
+    <br/>**Note**: The `id` parameter is required for all endpoints.
   version: '1.0'
   termsOfService: 'https://customer.io/legal/terms-of-service/'
   contact:
@@ -64,10 +79,10 @@ paths:
                 - email
         description: ''
       tags:
-        - Create a Person
+        - Create and Delete a Person
     delete:
       summary: Delete
-      operationId: delete-Pustomer
+      operationId: delete-Person
       responses:
         '200':
           description: OK
@@ -80,7 +95,7 @@ paths:
 
         **This action is not available with the Javascript snippet alone.**
       tags:
-        - Delete a Person
+        - Create and Delete a Person
   '/customers/{id}/devices':
     parameters:
       - schema:
@@ -91,18 +106,17 @@ paths:
     put:
       summary: Create or update a customer device
       responses: {}
-      operationId: put-customers-id-devices
-      description: ''
+      operationId: put-Persons-id-devices
+      description: Create or update a Person's device.
       tags:
-        - Device
-        - Create or Update Customer Device
+        - Create and Delete a Person's Device
     delete:
       summary: Delete a customer device
-      tags:
-        - Device
-        - Delete customer device
       responses: {}
-      operationId: delete-customers-id-devices
+      operationId: delete-Persons-id-devices
+      tags:
+        - Create and Delete a Person's Device
+      description: Delete a Persons's device.
   '/customers/{id}/suppress':
     parameters:
       - schema:
@@ -111,12 +125,12 @@ paths:
         in: path
         required: true
     post:
-      summary: Supress a customer
-      tags:
-        - Supress a customer
-        - supress
+      summary: Supress a Person
       responses: {}
-      operationId: post-customers-id-suppress
+      operationId: post-Persons-id-suppress
+      tags:
+        - Supress a Person
+      description: Supress a Person.
   '/customers/{id}/unsuppress':
     parameters:
       - schema:
@@ -125,12 +139,12 @@ paths:
         in: path
         required: true
     post:
-      summary: Unsupress a customer
-      tags:
-        - unsuppress
-        - unsuppress a customer
+      summary: Unsupress a Person
       responses: {}
-      operationId: post-customers-id-unsuppress
+      operationId: post-Persons-id-unsuppress
+      tags:
+        - Unsupress a Person
+      description: Unsupress a Person.
 components:
   schemas:
     email:
@@ -166,10 +180,7 @@ components:
       type: string
   securitySchemes: {}
 tags:
-  - name: Delete customer device
-  - name: Supress a customer
-  - name: supress
-  - name: Device
-  - name: Create or Update Customer Device
-  - name: Create a Person
-  - name: Delete a Person
+  - name: Create and Delete a Person
+  - name: Create and Delete a Person's Device
+  - name: Supress a Person
+  - name: Unsupress a Person
