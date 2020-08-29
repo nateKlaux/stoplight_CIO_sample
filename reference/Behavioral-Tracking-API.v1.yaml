@@ -39,7 +39,7 @@ paths:
         name: id
         in: path
         required: true
-        description: '    The unique identifier for the customer.'
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
     put:
       summary: Create or update a Person
       operationId: create-Person
@@ -131,6 +131,7 @@ paths:
         name: id
         in: path
         required: true
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
     put:
       summary: Create or update a Person's device
       responses: {}
@@ -177,6 +178,7 @@ paths:
         name: id
         in: path
         required: true
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
       - schema:
           type: string
           default: '1'
@@ -222,13 +224,24 @@ paths:
         name: id
         in: path
         required: true
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
     post:
       summary: Supress a Person
       responses: {}
       operationId: post-Persons-id-suppress
       tags:
         - Supress a Person
-      description: Supress a Person.
+      description: |-
+        Supress a Person.
+
+        To suppress a profile id in Customer.io from your server side code, you can `POST` to the suppress resource for a given profile ID. If we receive further API event/identify calls for the same profile ID, we’ll notice the id is suppressed and ignore the received API calls.
+
+        In addition to suppressing the profile ID *we will also delete the user profile from Customer.io* the same way we would when calling the identify endpoint with the `DELETE` method.
+
+        <!-- theme: danger -->
+
+        >
+        >WARNING: This API call will NOT add anyone’s email address to the global suppression list for your account. Instead, it will delete the user’s profile AND cause us to ignore future API calls that attempt to create a new profile with the same profile id. If you need to suppress deliveries for a particular *email address*, please reach out to our support team or your email admin.
       parameters:
         - schema:
             type: string
@@ -252,13 +265,23 @@ paths:
         name: id
         in: path
         required: true
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
     post:
       summary: Unsupress a Person
       responses: {}
       operationId: post-Persons-id-unsuppress
       tags:
         - Unsupress a Person
-      description: Unsupress a Person.
+      description: |-
+        Unsupress a Person.
+
+        If you need to resume tracking a previously suppressed profile ID in Customer.io you can `POST` to the unsuppress resource for a previously suppressed profile ID.
+
+        Following a call to unsuppress, identifies and events for a person will behave exactly as they would for a customer that we haven’t seen before. Identifying a person following an unsuppress will create an entirely new profile for them, with none of the history (messages, journeys, etc.) that might have existed for that ID prior to a suppress call.
+
+        <!-- theme: danger -->
+        >
+        >**WARNING: This API call will NOT remove anyone’s email address from the global suppression list for your account.** Instead, it will reverse the effects of a SUPPRESS call (above) and cause us to allow future API calls that will create a new profile that uses a previously suppressed profile id. If you need to unsuppress deliveries for a particular *email address*, please reach out to our support team or your email admin.
       parameters:
         - schema:
             type: string
@@ -274,6 +297,66 @@ paths:
           name: Content-Type
           required: true
           description: This header defines the bodyRequest parameters.
+  '/customers/{id}/events':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
+    post:
+      summary: Track a customer event.
+      tags: []
+      responses: {}
+      operationId: post-customers-id-events
+      description: |-
+        Track a customer event.
+
+        To send an event to Customer.io outside of the browser, say from your server side code, you can `POST` to the events resource for a given customer.
+
+        #### Reserved Custom Data Parameters
+
+        There are a few important values which, if sent with the events that trigger campaigns, will **override** those campaign settings. These are:
+
+        1. Attachments
+        2. `from_address`
+        3. `recipient`
+        4. `reply_to`
+
+        <!-- theme: warning -->
+        >
+        >When using the Javascript snippet to track events you must call the Behavioral Tracking API call after previously identifying the user or else the event will not associate to the user’s profile.
+      parameters:
+        - schema:
+            type: string
+            default: application/x-www-form-urlencoded
+          in: header
+          name: Content-Type
+          required: true
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          name: Authorization
+          required: true
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_name:
+                  $ref: '#/components/schemas/event_name'
+                type:
+                  $ref: '#/components/schemas/type'
+                'data[product]':
+                  $ref: '#/components/schemas/data'
+                'data[price]':
+                  $ref: '#/components/schemas/data'
+              required:
+                - event_name
 components:
   schemas:
     email:
@@ -322,6 +405,28 @@ components:
       title: last_used
       description: UNIX timestamp representing the last used time for the device. If this is not included we default to the time of the device identify.
       default: 1514764800
+    event_name:
+      type:
+        - string
+        - number
+      title: event_name
+      description: The name of the event to track.
+      default: purchase
+      example: 'Purchase, Purchased, '
+    type:
+      title: type
+      type: string
+      description: Used to change event type. For Page View events set to "page".
+    data:
+      anyOf:
+        - example: Product
+          default: Socks
+          description: Product or Price
+      description: Custom data to include with the event.
+      x-examples: {}
+      type:
+        - string
+        - number
   securitySchemes: {}
 tags:
   - name: Create and Delete a Person
