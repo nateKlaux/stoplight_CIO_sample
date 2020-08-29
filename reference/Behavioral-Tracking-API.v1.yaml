@@ -4,7 +4,7 @@ info:
   description: |-
     ## Resource Description
 
-    Our **Behavioral Tracking API** is used to identify and track Person (customer) data with Customer.io. You can add, update, or delete Persons, as well as their devices. You can also use the API to supress and unsupress Persons, or manage events and segments (segments are manually added customers from GUI interface). Data is available in JSON, XML, or HTML format. **Note**: This sample Spotlight file covers the `Behavioral Tracking API` only. `API` and `BETA API` integration with Spotlight will be available soon. <br/>
+    Our **Behavioral Tracking API** is used to identify and track Person (customer) data with Customer.io. You can add, update, or delete Persons, as well as their devices. You can also use the API to supress and unsupress Persons, or manage events and segments (segments are manually added customers from GUI interface). Data is available in JSON, XML, or HTML format. **Note**: This sample Spotlight file covers the `Behavioral Tracking API` only. `API` and `BETA API` integration into Spotlight will be available soon. <br/>
 
     ## Authentication
     All requests to the Customer.io API must be authenticated using a Tracking API Key over HTTP Basic Auth.
@@ -306,14 +306,15 @@ paths:
         required: true
         description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.
     post:
-      summary: Track a customer event.
-      tags: []
+      summary: Track a Person's event
+      tags:
+        - Track an event
       responses: {}
       operationId: post-customers-id-events
       description: |-
-        Track a customer event.
+        Track a Person's event.
 
-        To send an event to Customer.io outside of the browser, say from your server side code, you can `POST` to the events resource for a given customer.
+        To send an event to Customer.io outside of the browser, say from your server side code, you can `POST` to the events resource for a given Person.
 
         #### Reserved Custom Data Parameters
 
@@ -334,6 +335,7 @@ paths:
           in: header
           name: Content-Type
           required: true
+          description: This header defines the bodyRequest parameters.
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
@@ -347,14 +349,63 @@ paths:
             schema:
               type: object
               properties:
-                event_name:
+                name:
                   $ref: '#/components/schemas/event_name'
                 type:
                   $ref: '#/components/schemas/type'
                 'data[product]':
-                  $ref: '#/components/schemas/data'
+                  $ref: '#/components/schemas/data_product'
                 'data[price]':
-                  $ref: '#/components/schemas/data'
+                  $ref: '#/components/schemas/data_price'
+              required:
+                - name
+        description: ''
+  /events:
+    post:
+      summary: Track an anonymous event
+      tags:
+        - Track an event
+      responses: {}
+      operationId: post-events
+      description: |-
+        Anonymous events can also be sent to Customer.io by way of a `POST` to the events resource directly without a customer ID.
+        #### Reserved Custom Data Parameters
+
+        There are a few important values which, if sent with the events that trigger campaigns, will **override** those campaign settings. These are:
+
+        1. `recipient`
+        2. `from_address`
+        3. `reply_to`
+
+        The `recipient` event attribute is required if the anonymous event is used to trigger an email campaign.
+        ### Use case
+
+        You can use anonymous events to send invitation emails to people not yet in your Customer.io database.
+      parameters:
+        - schema:
+            type: string
+            default: application/x-www-form-urlencoded
+          in: header
+          name: Content-Type
+          description: This header defines the bodyRequest parameters.
+          required: true
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          name: Authorization
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_name:
+                  $ref: '#/components/schemas/event_name'
+                'data[price]':
+                  $ref: '#/components/schemas/data_price'
               required:
                 - event_name
 components:
@@ -412,33 +463,45 @@ components:
       title: event_name
       description: The name of the event to track.
       default: purchase
-      example: 'Purchase, Purchased, '
+      example: Choose either Purchase or In Cart or Appropriate Value
     type:
       title: type
       type: string
       description: Used to change event type. For Page View events set to "page".
-    data:
-      anyOf:
-        - example: Product
-          default: Socks
-          description: 'Product, i.e shoes.'
-          properties:
-            'data[product]':
-              type: string
-              default: product
-              example: shoes
-        - properties:
-            'data[time_stamp]':
-              type: integer
-        - properties:
-            'data[price]':
-              type: number
-      description: Custom data to include with the event.
+    data_price:
+      type: array
+      description: Custom data about price to include with the event.
       x-examples: {}
-      type: object
+      title: 'data[price]'
+      default: Appropriate Value
+      example: 24.94
+      items:
+        type: number
+        default: Appropriate Value
+        example: 24.94
+    data_product:
+      type: string
+      title: 'data[product]'
+      description: Custom data about price to include with the event.
+      default: Appropriate Value
+      example: shoes
+    data_time-stamp:
+      type: number
+      title: data_time-stamp
+      description: Custom data about UNIX epoch time to include with the event.
+      default: Appropriate Value
+      example: 1598725892
+    data_recipient:
+      type: string
+      title: 'data[recipient]'
+      description: Custom data about the recipient to include with the event.
+      default: Appropriate Value
+      example: gavin@hooli.com
+      format: email
   securitySchemes: {}
 tags:
   - name: Create and Delete a Person
   - name: Create and Delete a Person's Device
   - name: Supress a Person
   - name: Unsupress a Person
+  - name: Track an event
