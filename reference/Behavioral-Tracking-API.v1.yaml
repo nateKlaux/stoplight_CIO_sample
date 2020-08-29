@@ -19,10 +19,12 @@ paths:
     parameters:
       - schema:
           type: string
+          default: '6'
+          example: Thomas
         name: id
         in: path
         required: true
-        description: User's unique ID
+        description: 'The `id` Attribute is the only Attribute that is required per Person and **it cannot be changed once it has been set.** The `id` Attribute must be unique for every profile because it is what we use to differentiate each Person in your Workspace. We do not use their other contact information (i.e., their email address or phone number) for that purpose. This means multiple profiles can have the same email address, phone number.'
     put:
       summary: ''
       operationId: put-customer
@@ -39,7 +41,19 @@ paths:
           in: header
           name: Authorization
           required: true
-      description: Create or update a customer.
+      description: |-
+        Create or update a customer.
+
+        Creating or updating customers via the Behavioral Tracking API accomplishes the same goal as the `identify` method in the Javascript snippet. It allows you to pass attributes of your customers to us which you can then use to personalized your triggered emails or affect the logic of who receives them. 
+
+        <!-- theme: warning -->
+        > There is a limit of 300 unique attributes set per identify call.
+
+        ## Updating or removing attributes
+        You can also update a customer’s attributes after creating them, using the same `PUT` API call. Don’t worry about sending only the attributes which have changed, our API takes care of that for you.
+
+
+        > To remove an attribute on an existing customer, set its value to an empty string.
       responses: {}
       requestBody:
         required: true
@@ -71,6 +85,53 @@ paths:
         **Note**: If you’re still sending data to Customer.io via other means (such as the Javascript snippet), the customer could be recreated.
 
         **This action is not available with the Javascript snippet alone.**
+  '/customers/{id}/devices':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: Create or update a customer device
+      tags:
+        - Device
+        - Delete customer device
+      responses: {}
+      operationId: put-customers-id-devices
+    delete:
+      summary: Delete a customer device
+      tags:
+        - Device
+        - Delete customer device
+      responses: {}
+      operationId: delete-customers-id-devices
+  '/customers/{id}/suppress':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: Supress a customer
+      tags: []
+      responses: {}
+      operationId: post-customers-id-suppress
+  '/customers/{id}/unsuppress':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: Unsupress a customer
+      tags:
+        - unsuppress
+        - unsuppress a customer
+      responses: {}
+      operationId: post-customers-id-unsuppress
 components:
   schemas:
     email:
