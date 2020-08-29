@@ -31,8 +31,15 @@ info:
 servers:
   - url: 'https://track.customer.io/api/v1'
 paths:
-  /customers/id:
-    parameters: []
+  '/customers/{id}':
+    parameters:
+      - schema:
+          type: string
+          default: '6'
+        name: id
+        in: path
+        required: true
+        description: '    The unique identifier for the customer.'
     put:
       summary: Create or update a Person
       operationId: create-Person
@@ -43,7 +50,7 @@ paths:
           in: header
           name: Content-Type
           required: true
-          description: This header defines the bodyRequest parameters
+          description: This header defines the bodyRequest parameters.
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
@@ -84,7 +91,7 @@ paths:
       tags:
         - Create and Delete a Person
     delete:
-      summary: Delete
+      summary: Delete a Person
       operationId: delete-Person
       responses:
         '200':
@@ -104,10 +111,11 @@ paths:
       parameters:
         - schema:
             type: string
+            default: application/x-www-form-urlencoded
           in: header
           name: Content-Type
           required: true
-          description: This header defines the bodyRequest parameters
+          description: This header defines the bodyRequest parameters.
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
@@ -119,11 +127,12 @@ paths:
     parameters:
       - schema:
           type: string
+          default: '6'
         name: id
         in: path
         required: true
     put:
-      summary: Create or update a customer device
+      summary: Create or update a Person's device
       responses: {}
       operationId: put-Persons-id-devices
       description: Create or update a Person's device.
@@ -136,7 +145,7 @@ paths:
           in: header
           name: Content-Type
           required: true
-          description: This header defines the bodyRequest parameters
+          description: This header defines the bodyRequest parameters.
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
@@ -144,13 +153,50 @@ paths:
           name: Authorization
           required: true
           description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                'device[id]':
+                  $ref: '#/components/schemas/device_id'
+                'device[platform]':
+                  $ref: '#/components/schemas/platform'
+                'device[last_used]':
+                  $ref: '#/components/schemas/last_used'
+              required:
+                - 'device[id]'
+                - 'device[platform]'
+        description: To identify mobile devices for use in Push messaging you need to form a `PUT` call to the `devices` endpoint for a given customer.
+  '/customers/{id}/devices/{device_id}':
+    parameters:
+      - schema:
+          type: string
+          default: '6'
+        name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+          default: '1'
+        name: device_id
+        in: path
+        required: true
+        description: '    The unique token for the user device.'
     delete:
-      summary: Delete a customer device
-      responses: {}
+      summary: Delete a Person's device
       operationId: delete-Persons-id-devices
-      tags:
-        - Create and Delete a Person's Device
-      description: Delete a Persons's device.
+      responses:
+        '200':
+          description: OK
+      description: |-
+        Delete's a Persons's device. Deleting a mobile device will remove the device from a customer’s profile in Customer.io.
+
+        <!-- theme: warning -->
+
+        >
+        > Note: if you’re still sending data about the device to Customer.io via your integration the device will be recreated.
       parameters:
         - schema:
             type: string
@@ -158,18 +204,21 @@ paths:
           in: header
           name: Content-Type
           required: true
-          description: This header defines the bodyRequest parameters
+          description: This header defines the bodyRequest parameters.
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
           in: header
-          required: true
           name: Authorization
+          required: true
           description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
+      tags:
+        - Create and Delete a Person's Device
   '/customers/{id}/suppress':
     parameters:
       - schema:
           type: string
+          default: '6'
         name: id
         in: path
         required: true
@@ -194,11 +243,12 @@ paths:
           in: header
           name: Content-Type
           required: true
-          description: This header defines the bodyRequest parameters
+          description: This header defines the bodyRequest parameters.
   '/customers/{id}/unsuppress':
     parameters:
       - schema:
           type: string
+          default: '6'
         name: id
         in: path
         required: true
@@ -223,7 +273,7 @@ paths:
           in: header
           name: Content-Type
           required: true
-          description: This header defines the bodyRequest parameters
+          description: This header defines the bodyRequest parameters.
 components:
   schemas:
     email:
@@ -257,6 +307,21 @@ components:
           default: 'plan={plan}'
       description: Properties stored per Person in your account.
       type: string
+    device_id:
+      title: device_id
+      type: string
+      description: '    The unique token for the user device.'
+    platform:
+      type: string
+      title: platform
+      description: The platform for the user device. Allowed values are 'ios' and 'android'.
+      default: my_ios_device_id
+      example: '1'
+    last_used:
+      type: number
+      title: last_used
+      description: UNIX timestamp representing the last used time for the device. If this is not included we default to the time of the device identify.
+      default: 1514764800
   securitySchemes: {}
 tags:
   - name: Create and Delete a Person
