@@ -229,8 +229,6 @@ paths:
       summary: Supress a Person
       responses: {}
       operationId: post-Persons-id-suppress
-      tags:
-        - Supress a Person
       description: |-
         Supress a Person.
 
@@ -257,6 +255,8 @@ paths:
           name: Content-Type
           required: true
           description: This header defines the bodyRequest parameters.
+      tags:
+        - Supress and Unsupress a Person
   '/customers/{id}/unsuppress':
     parameters:
       - schema:
@@ -270,8 +270,6 @@ paths:
       summary: Unsupress a Person
       responses: {}
       operationId: post-Persons-id-unsuppress
-      tags:
-        - Unsupress a Person
       description: |-
         Unsupress a Person.
 
@@ -297,6 +295,8 @@ paths:
           name: Content-Type
           required: true
           description: This header defines the bodyRequest parameters.
+      tags:
+        - Supress and Unsupress a Person
   '/customers/{id}/events':
     parameters:
       - schema:
@@ -420,8 +420,6 @@ paths:
         description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Add People to a manual segment
-      tags:
-        - Add and Remove People from a manual segment
       responses: {}
       operationId: post-segments-id-add_customers
       parameters:
@@ -453,6 +451,8 @@ paths:
 
         >
         >**NOTE: This API call is for use with manual segments only.** It will NOT add anyone to data-driven segments. Please visit our documentation on segments to learn more about these segment types.
+      tags:
+        - Add and Remove a Person from Segments
   '/segments/{id}/remove_customer':
     parameters:
       - schema:
@@ -464,8 +464,6 @@ paths:
         description: The unique identifier for the customer. **Be sure to replace this value in the "Try It" section.**
     post:
       summary: Remove People from a manual segment
-      tags:
-        - Add and Remove People from a manual segment
       responses: {}
       operationId: post-segments-id-remove_customer
       parameters:
@@ -491,6 +489,8 @@ paths:
         <!-- theme: warning -->
 
         >**NOTE: This API call is for use with manual segments only.** It will NOT remove anyone from data-driven segments. Please visit our documentation on segments to learn more about these segment types.
+      tags:
+        - Add and Remove a Person from Segments
 components:
   schemas:
     email:
@@ -585,7 +585,6 @@ components:
 tags:
   - name: Create and Delete a Person
   - name: Create and Delete a Person's Device
-  - name: Supress a Person
-  - name: Unsupress a Person
   - name: Track an event
-  - name: Add and Remove People from a manual segment
+  - name: Supress and Unsupress a Person
+  - name: Add and Remove a Person from Segments
