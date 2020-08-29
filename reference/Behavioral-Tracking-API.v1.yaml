@@ -421,12 +421,21 @@ components:
       anyOf:
         - example: Product
           default: Socks
-          description: Product or Price
+          description: 'Product, i.e shoes.'
+          properties:
+            'data[product]':
+              type: string
+              default: product
+              example: shoes
+        - properties:
+            'data[time_stamp]':
+              type: integer
+        - properties:
+            'data[price]':
+              type: number
       description: Custom data to include with the event.
       x-examples: {}
-      type:
-        - string
-        - number
+      type: object
   securitySchemes: {}
 tags:
   - name: Create and Delete a Person
