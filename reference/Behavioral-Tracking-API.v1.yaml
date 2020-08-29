@@ -15,16 +15,13 @@ servers:
   - url: 'https://track.customer.io/api/v1'
     description: Behavioral Tracking API
 paths:
-  '/customers/{id}':
+  '/customers/{:id}':
     parameters:
       - schema:
           type: string
-          default: '6'
-          example: Thomas
-        name: id
+        name: ':id'
         in: path
         required: true
-        description: 'The `id` Attribute is the only Attribute that is required per Person and **it cannot be changed once it has been set.** The `id` Attribute must be unique for every profile because it is what we use to differentiate each Person in your Workspace. We do not use their other contact information (i.e., their email address or phone number) for that purpose. This means multiple profiles can have the same email address, phone number.'
     put:
       summary: Create or update a Person
       operationId: put-customer
