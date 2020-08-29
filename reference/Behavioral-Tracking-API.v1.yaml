@@ -90,7 +90,6 @@ paths:
     put:
       summary: Create or update a customer device
       tags:
-        - Device
         - Delete customer device
       responses: {}
       operationId: put-customers-id-devices
@@ -165,3 +164,4 @@ components:
 tags:
   - name: Create Person
   - name: Delete Person
+  - name: Delete customer device
