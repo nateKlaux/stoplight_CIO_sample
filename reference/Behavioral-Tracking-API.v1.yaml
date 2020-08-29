@@ -15,11 +15,11 @@ servers:
   - url: 'https://track.customer.io/api/v1'
     description: Behavioral Tracking API
 paths:
-  '/customers/id':
+  /customers/id:
     parameters: []
     put:
       summary: Create or update a Person
-      operationId: put-customer
+      operationId: create-Person
       parameters:
         - schema:
             type: string
@@ -34,7 +34,7 @@ paths:
           name: Authorization
           required: true
       description: |-
-        Create or update a customer.
+        Create or update a Person.
 
         Creating or updating customers via the Behavioral Tracking API accomplishes the same goal as the `identify` method in the Javascript snippet. It allows you to pass attributes of your customers to us which you can then use to personalized your triggered emails or affect the logic of who receives them. 
 
@@ -65,14 +65,14 @@ paths:
         description: ''
     delete:
       summary: Delete
-      operationId: delete-customer
+      operationId: delete-Pustomer
       responses:
         '200':
           description: OK
       description: |-
-        Delete a customer. 
+        Delete a Person. 
 
-        Deleting a customer will remove them, and all their information from Customer.io.
+        Deleting a Pustomer will remove them, and all their information from Customer.io.
 
         **Note**: If you’re still sending data to Customer.io via other means (such as the Javascript snippet), the customer could be recreated.
 
