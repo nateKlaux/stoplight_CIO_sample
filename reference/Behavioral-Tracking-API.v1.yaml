@@ -63,6 +63,8 @@ paths:
               required:
                 - email
         description: ''
+      tags:
+        - Create a Person
     delete:
       summary: Delete
       operationId: delete-Pustomer
@@ -77,6 +79,8 @@ paths:
         **Note**: If you’re still sending data to Customer.io via other means (such as the Javascript snippet), the customer could be recreated.
 
         **This action is not available with the Javascript snippet alone.**
+      tags:
+        - Delete a Person
   '/customers/{id}/devices':
     parameters:
       - schema:
@@ -86,11 +90,12 @@ paths:
         required: true
     put:
       summary: Create or update a customer device
-      tags:
-        - Delete customer device
       responses: {}
       operationId: put-customers-id-devices
       description: ''
+      tags:
+        - Device
+        - Create or Update Customer Device
     delete:
       summary: Delete a customer device
       tags:
@@ -107,7 +112,9 @@ paths:
         required: true
     post:
       summary: Supress a customer
-      tags: []
+      tags:
+        - Supress a customer
+        - supress
       responses: {}
       operationId: post-customers-id-suppress
   '/customers/{id}/unsuppress':
@@ -160,3 +167,9 @@ components:
   securitySchemes: {}
 tags:
   - name: Delete customer device
+  - name: Supress a customer
+  - name: supress
+  - name: Device
+  - name: Create or Update Customer Device
+  - name: Create a Person
+  - name: Delete a Person
