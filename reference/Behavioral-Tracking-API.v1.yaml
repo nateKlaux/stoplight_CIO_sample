@@ -7,14 +7,16 @@ info:
     Our **Behavioral Tracking API** is used to identify and track Person (customer) data with Customer.io. You can add, update, or delete Person, as well as their devices. You can also use the API to supress and unsupress Persons, manage events and segments (segments are manually added customers from GUI interface). Data is available in JSON, XML, or HTML format. **Note**: This sample Spotlight file covers the `Behavioral Tracking API` only. `API` and `BETA API` integration with Spotlight will be available soon. <br/>
 
     ## Authentication
-    <!-- theme: warning --> 
-    > This sample uses my personal Customer.io demo tracking API keys. They are set to eventually expire. 
-
-    All requests to the Customer.io API must be authenticated using a Tracking API Key over HTTP Basic Auth.
+     All requests to the Customer.io API must be authenticated using a Tracking API Key over HTTP Basic Auth.
 
     To authenticate, provide your Site ID as the username, and your secret API key as the password. You can find these values by visiting the Tracking API Keys page directly, or by clicking the Integrations link in the left-hand menu of your Customer.io account and choosing Customer.io API > Manage API Credentials > Tracking API Keys.
     <!-- theme: danger -->
     > Nothing will work unless you include both your Site ID and your API Key
+
+    <!-- theme: warning -->
+    >
+    > Because this sample defaults to my personal API keys, be sure to replace my Base64 encoded `Site_ID:API_Key` with your own in the authentiction header **or** replace the authentication header altogether with the following cURL call: <br/>
+    > `curl -u Site_ID:API_Key`
 
     <br/>**Note**: The `id` parameter is required for all endpoints.
   version: '1.0'
@@ -28,7 +30,6 @@ info:
     url: 'https://customer.io/pricing/'
 servers:
   - url: 'https://track.customer.io/api/v1'
-    description: Behavioral Tracking API
 paths:
   /customers/id:
     parameters: []
@@ -48,6 +49,7 @@ paths:
           in: header
           name: Authorization
           required: true
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
       description: |-
         Create or update a Person.
 
@@ -92,10 +94,25 @@ paths:
         Deleting a Pustomer will remove them, and all their information from Customer.io.
 
         **Note**: If you’re still sending data to Customer.io via other means (such as the Javascript snippet), the customer could be recreated.
+        <!-- theme: danger -->
 
-        **This action is not available with the Javascript snippet alone.**
+        >
+        > **This action is not available with the Javascript snippet alone.**
       tags:
         - Create and Delete a Person
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Content-Type
+          required: true
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          name: Authorization
+          required: true
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
   '/customers/{id}/devices':
     parameters:
       - schema:
@@ -110,6 +127,20 @@ paths:
       description: Create or update a Person's device.
       tags:
         - Create and Delete a Person's Device
+      parameters:
+        - schema:
+            type: string
+            default: application/x-www-form-urlencoded
+          in: header
+          name: Content-Type
+          required: true
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          name: Authorization
+          required: true
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
     delete:
       summary: Delete a customer device
       responses: {}
@@ -117,6 +148,20 @@ paths:
       tags:
         - Create and Delete a Person's Device
       description: Delete a Persons's device.
+      parameters:
+        - schema:
+            type: string
+            default: application/x-www-form-urlencoded
+          in: header
+          name: Content-Type
+          required: true
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          required: true
+          name: Authorization
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
   '/customers/{id}/suppress':
     parameters:
       - schema:
@@ -131,6 +176,20 @@ paths:
       tags:
         - Supress a Person
       description: Supress a Person.
+      parameters:
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
+          name: Authorization
+          required: true
+        - schema:
+            type: string
+            default: application/x-www-form-urlencoded
+          in: header
+          name: Content-Type
+          required: true
   '/customers/{id}/unsuppress':
     parameters:
       - schema:
@@ -145,6 +204,20 @@ paths:
       tags:
         - Unsupress a Person
       description: Unsupress a Person.
+      parameters:
+        - schema:
+            type: string
+            default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
+          in: header
+          name: Authorization
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
+          required: true
+        - schema:
+            type: string
+            default: application/x-www-form-urlencoded
+          in: header
+          name: Content-Type
+          required: true
 components:
   schemas:
     email:
