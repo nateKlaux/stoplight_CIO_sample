@@ -4,10 +4,10 @@ info:
   description: |-
     ## Resource Description
 
-    Our **Behavioral Tracking API** is used to identify and track Person (customer) data with Customer.io. You can add, update, or delete Person, as well as their devices. You can also use the API to supress and unsupress Persons, manage events and segments (segments are manually added customers from GUI interface). Data is available in JSON, XML, or HTML format. **Note**: This sample Spotlight file covers the `Behavioral Tracking API` only. `API` and `BETA API` integration with Spotlight will be available soon. <br/>
+    Our **Behavioral Tracking API** is used to identify and track Person (customer) data with Customer.io. You can add, update, or delete Persons, as well as their devices. You can also use the API to supress and unsupress Persons, or manage events and segments (segments are manually added customers from GUI interface). Data is available in JSON, XML, or HTML format. **Note**: This sample Spotlight file covers the `Behavioral Tracking API` only. `API` and `BETA API` integration with Spotlight will be available soon. <br/>
 
     ## Authentication
-     All requests to the Customer.io API must be authenticated using a Tracking API Key over HTTP Basic Auth.
+    All requests to the Customer.io API must be authenticated using a Tracking API Key over HTTP Basic Auth.
 
     To authenticate, provide your Site ID as the username, and your secret API key as the password. You can find these values by visiting the Tracking API Keys page directly, or by clicking the Integrations link in the left-hand menu of your Customer.io account and choosing Customer.io API > Manage API Credentials > Tracking API Keys.
     <!-- theme: danger -->
@@ -16,7 +16,7 @@ info:
     <!-- theme: warning -->
     >
     > Because this sample defaults to my personal API keys, be sure to replace my Base64 encoded `Site_ID:API_Key` with your own in the authentiction header **or** replace the authentication header altogether with the following cURL call: <br/>
-    > `curl -u Site_ID:API_Key`
+    > `-u Site_ID:API_Key`
 
     <br/>**Note**: The `id` parameter is required for all endpoints.
   version: '1.0'
@@ -43,13 +43,14 @@ paths:
           in: header
           name: Content-Type
           required: true
+          description: This header defines the bodyRequest parameters
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
           in: header
           name: Authorization
           required: true
-          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
       description: |-
         Create or update a Person.
 
@@ -106,13 +107,14 @@ paths:
           in: header
           name: Content-Type
           required: true
+          description: This header defines the bodyRequest parameters
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
           in: header
           name: Authorization
           required: true
-          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
   '/customers/{id}/devices':
     parameters:
       - schema:
@@ -134,13 +136,14 @@ paths:
           in: header
           name: Content-Type
           required: true
+          description: This header defines the bodyRequest parameters
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
           in: header
           name: Authorization
           required: true
-          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
     delete:
       summary: Delete a customer device
       responses: {}
@@ -155,13 +158,14 @@ paths:
           in: header
           name: Content-Type
           required: true
+          description: This header defines the bodyRequest parameters
         - schema:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
           in: header
           required: true
           name: Authorization
-          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
   '/customers/{id}/suppress':
     parameters:
       - schema:
@@ -181,7 +185,7 @@ paths:
             type: string
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
           in: header
-          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
           name: Authorization
           required: true
         - schema:
@@ -190,6 +194,7 @@ paths:
           in: header
           name: Content-Type
           required: true
+          description: This header defines the bodyRequest parameters
   '/customers/{id}/unsuppress':
     parameters:
       - schema:
@@ -210,7 +215,7 @@ paths:
             default: Basic MDc4ZjA5YjkyNGMxNTYxYTAwMzA6ZmEyNDY2YWE0NDYyNDBjNDNiMzE=
           in: header
           name: Authorization
-          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with the `curl -u site_ID:API_KEY` call itself.'
+          description: 'This string is your site_ID:API_key encoded in Base64. For results to appear in your dashboard, be sure to replace the string with your own encoded site_ID:API_key, or replace the authorization header itself with this curl call: `-u site_ID:API_KEY`.'
           required: true
         - schema:
             type: string
@@ -218,6 +223,7 @@ paths:
           in: header
           name: Content-Type
           required: true
+          description: This header defines the bodyRequest parameters
 components:
   schemas:
     email:
