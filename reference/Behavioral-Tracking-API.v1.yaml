@@ -4,7 +4,7 @@ info:
   description: |-
     ## Resource Description
 
-    The **Behavioral Tracking API** is used to identify and track customer data with Customer.io. With it, you can add, update, and delete customers and their devices. You can also supress/unsupress customers as well as manage events and segments. (Segments are manually-added customers from the GUI interface.) Data is available in JSON, XML, or HTML format. <br/> **Note**: This sample is a reworking of Customer.io's Behavioral Tracking API into an OpenAPI Spec definition.<br/>
+    The **Behavioral Tracking API** is used to identify and track customer data with Customer.io. With it, you can add, update, and delete customers and their devices. You can also supress/unsupress customers as well as manage events and segments. (Segments are manually-added customers from the GUI interface.) Data is available in JSON, XML, or HTML format. <br><br/> **Note**: This sample is a reworking of Customer.io's Behavioral Tracking API into an OpenAPI Spec definition.
 
     ## Authentication
     All requests to the **Behavioral Tracking API** must be authenticated using a Tracking API Key over HTTP Basic Auth.
