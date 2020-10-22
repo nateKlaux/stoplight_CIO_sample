@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.0.1
 info:
   title: Behavioral Tracking API
   description: |-
     ## Resource Description
 
-    Our **Behavioral Tracking API** is used to identify and track Person (customer) data with Customer.io. You can add, update, or delete Persons, as well as their devices. You can also use the API to supress and unsupress Persons, or manage events and segments (segments are manually added customers from GUI interface). Data is available in JSON, XML, or HTML format. **Note**: This sample Spotlight file covers the `Behavioral Tracking API` only. `API` and `BETA API` integration into Spotlight will be available soon. <br/>
+    The **Behavioral Tracking API** is used to identify and track customer data with Customer.io. With it, you can add, update, and delete customers and their devices. You can also supress/unsupress customers as well as manage events and segments. (Segments are manually-added customers from the GUI interface.) Data is available in JSON, XML, or HTML format. <br/> **Note**: This sample is a reworking of Customer.io's Behavioral Tracking API into an OpenAPI Spec definition.<br/>
 
     ## Authentication
-    All requests to the Customer.io API must be authenticated using a Tracking API Key over HTTP Basic Auth.
+    All requests to the **Behavioral Tracking API** must be authenticated using a Tracking API Key over HTTP Basic Auth.
 
     To authenticate, provide your Site ID as the username, and your secret API key as the password. You can find these values by visiting the Tracking API Keys page directly, or by clicking the Integrations link in the left-hand menu of your Customer.io account and choosing Customer.io API > Manage API Credentials > Tracking API Keys.
     <!-- theme: danger -->
